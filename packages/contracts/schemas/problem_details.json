@@ -1,0 +1,55 @@
+{
+  "additionalProperties": false,
+  "description": "RFC 7807 problem detail document.",
+  "properties": {
+    "detail": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Detail"
+    },
+    "instance": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Instance"
+    },
+    "status": {
+      "maximum": 599,
+      "minimum": 100,
+      "title": "Status",
+      "type": "integer"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "type": {
+      "default": "about:blank",
+      "minLength": 1,
+      "title": "Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "status"
+  ],
+  "title": "ProblemDetails",
+  "type": "object"
+}

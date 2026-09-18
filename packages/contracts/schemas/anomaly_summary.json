@@ -1,0 +1,83 @@
+{
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "severity": {
+            "enum": [
+              "error",
+              "critical"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "blocked": {
+            "const": true
+          }
+        },
+        "required": [
+          "blocked"
+        ]
+      }
+    }
+  ],
+  "description": "A publication-review finding emitted by validation.",
+  "properties": {
+    "blocked": {
+      "default": false,
+      "title": "Blocked",
+      "type": "boolean"
+    },
+    "code": {
+      "minLength": 1,
+      "title": "Code",
+      "type": "string"
+    },
+    "details": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Details",
+      "type": "array"
+    },
+    "message": {
+      "minLength": 1,
+      "title": "Message",
+      "type": "string"
+    },
+    "node_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Node Id"
+    },
+    "severity": {
+      "enum": [
+        "info",
+        "warning",
+        "error",
+        "critical"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "severity",
+    "message"
+  ],
+  "title": "AnomalySummary",
+  "type": "object"
+}

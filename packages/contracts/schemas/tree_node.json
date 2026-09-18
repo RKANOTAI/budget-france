@@ -1,0 +1,280 @@
+{
+  "$defs": {
+    "BudgetValue": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "properties": {
+            "ae": {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "ae"
+          ]
+        },
+        {
+          "properties": {
+            "cp": {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "cp"
+          ]
+        }
+      ],
+      "description": "Separated authorisations (AE) and payment credits (CP).",
+      "properties": {
+        "ae": {
+          "anyOf": [
+            {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ae"
+        },
+        "cp": {
+          "anyOf": [
+            {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cp"
+        },
+        "currency": {
+          "const": "EUR",
+          "default": "EUR",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "title": "BudgetValue",
+      "type": "object"
+    },
+    "NodeType": {
+      "description": "The three levels of the budget tree.",
+      "enum": [
+        "mission",
+        "programme",
+        "action"
+      ],
+      "title": "NodeType",
+      "type": "string"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "description": "A verifiable reference to a source document fragment.",
+      "properties": {
+        "document_type": {
+          "minLength": 1,
+          "title": "Document Type",
+          "type": "string"
+        },
+        "legal_stage": {
+          "enum": [
+            "PLF",
+            "LFI"
+          ],
+          "title": "Legal Stage",
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "publication_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publication Date"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "pattern": "Z$",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_fragment_id": {
+          "format": "uuid",
+          "title": "Source Fragment Id",
+          "type": "string"
+        },
+        "source_version": {
+          "minLength": 1,
+          "title": "Source Version",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "minLength": 1,
+          "pattern": "^https?://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:[/?#][^\\s]*)?$",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_fragment_id",
+        "url",
+        "sha256",
+        "locator",
+        "legal_stage",
+        "document_type",
+        "retrieved_at",
+        "source_version"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    },
+    "TreeNode": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "mission"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "children": {
+                "items": {
+                  "properties": {
+                    "node_type": {
+                      "const": "programme"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "programme"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "children": {
+                "items": {
+                  "properties": {
+                    "node_type": {
+                      "const": "action"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "action"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "children": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ],
+      "description": "One node of the Mission → Programme → Action tree.",
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/BudgetValue"
+        },
+        "children": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/TreeNode"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "node_type": {
+          "$ref": "#/$defs/NodeType"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 1,
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "node_type",
+        "name",
+        "budget",
+        "source_refs"
+      ],
+      "title": "TreeNode",
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/TreeNode"
+}

@@ -1,0 +1,10 @@
+{
+  "description": "The three levels of the budget tree.",
+  "enum": [
+    "mission",
+    "programme",
+    "action"
+  ],
+  "title": "NodeType",
+  "type": "string"
+}

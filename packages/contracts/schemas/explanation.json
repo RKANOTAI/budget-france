@@ -1,0 +1,44 @@
+{
+  "additionalProperties": false,
+  "description": "Source-grounded prose; limitations must state when context is unavailable.",
+  "properties": {
+    "limitations": {
+      "minLength": 1,
+      "title": "Limitations",
+      "type": "string"
+    },
+    "main_changes": {
+      "minLength": 1,
+      "title": "Main Changes",
+      "type": "string"
+    },
+    "source_fragment_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Source Fragment Ids",
+      "type": "array"
+    },
+    "summary": {
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    },
+    "what_it_funds": {
+      "minLength": 1,
+      "title": "What It Funds",
+      "type": "string"
+    }
+  },
+  "required": [
+    "summary",
+    "what_it_funds",
+    "main_changes",
+    "limitations",
+    "source_fragment_ids"
+  ],
+  "title": "Explanation",
+  "type": "object"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "budget-france",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo du MVP Où va l'argent ?",
+  "scripts": {
+    "test": "npm run test:contracts",
+    "test:contracts": "uv run pytest tests/contracts -q",
+    "contracts:check": "uv run python scripts/export_contracts.py --check"
+  }
+}

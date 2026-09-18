@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "FiscalYear": {
+      "description": "Fiscal years covered by the MVP contracts.",
+      "enum": [
+        2025,
+        2026
+      ],
+      "title": "FiscalYear",
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Metadata identifying an immutable published release.",
+  "properties": {
+    "fiscal_year": {
+      "$ref": "#/$defs/FiscalYear"
+    },
+    "release_id": {
+      "format": "uuid",
+      "title": "Release Id",
+      "type": "string"
+    },
+    "released_at": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "title": "Released At",
+      "type": "string"
+    },
+    "source_snapshot_hash": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Source Snapshot Hash",
+      "type": "string"
+    },
+    "version": {
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "release_id",
+    "version",
+    "released_at",
+    "fiscal_year",
+    "source_snapshot_hash"
+  ],
+  "title": "ReleaseInfo",
+  "type": "object"
+}

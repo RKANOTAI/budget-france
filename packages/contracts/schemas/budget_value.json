@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "anyOf": [
+    {
+      "properties": {
+        "ae": {
+          "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ae"
+      ]
+    },
+    {
+      "properties": {
+        "cp": {
+          "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cp"
+      ]
+    }
+  ],
+  "description": "Separated authorisations (AE) and payment credits (CP).",
+  "properties": {
+    "ae": {
+      "anyOf": [
+        {
+          "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ae"
+    },
+    "cp": {
+      "anyOf": [
+        {
+          "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cp"
+    },
+    "currency": {
+      "const": "EUR",
+      "default": "EUR",
+      "title": "Currency",
+      "type": "string"
+    }
+  },
+  "title": "BudgetValue",
+  "type": "object"
+}

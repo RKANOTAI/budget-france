@@ -1,0 +1,184 @@
+{
+  "$defs": {
+    "FiscalYear": {
+      "description": "Fiscal years covered by the MVP contracts.",
+      "enum": [
+        2025,
+        2026
+      ],
+      "title": "FiscalYear",
+      "type": "integer"
+    },
+    "MatchKind": {
+      "description": "How a search hit matched the query.",
+      "enum": [
+        "exact",
+        "lexical",
+        "semantic"
+      ],
+      "title": "MatchKind",
+      "type": "string"
+    },
+    "NodeType": {
+      "description": "The three levels of the budget tree.",
+      "enum": [
+        "mission",
+        "programme",
+        "action"
+      ],
+      "title": "NodeType",
+      "type": "string"
+    },
+    "ReleaseInfo": {
+      "additionalProperties": false,
+      "description": "Metadata identifying an immutable published release.",
+      "properties": {
+        "fiscal_year": {
+          "$ref": "#/$defs/FiscalYear"
+        },
+        "release_id": {
+          "format": "uuid",
+          "title": "Release Id",
+          "type": "string"
+        },
+        "released_at": {
+          "format": "date-time",
+          "pattern": "Z$",
+          "title": "Released At",
+          "type": "string"
+        },
+        "source_snapshot_hash": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Source Snapshot Hash",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "release_id",
+        "version",
+        "released_at",
+        "fiscal_year",
+        "source_snapshot_hash"
+      ],
+      "title": "ReleaseInfo",
+      "type": "object"
+    },
+    "SearchHit": {
+      "additionalProperties": false,
+      "description": "A deterministic search result, never an explanation.",
+      "properties": {
+        "code": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code"
+        },
+        "match_kind": {
+          "$ref": "#/$defs/MatchKind",
+          "description": "exact or lexical is a direct match; semantic is a reconstruction, not an exact result"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "node_id": {
+          "format": "uuid",
+          "title": "Node Id",
+          "type": "string"
+        },
+        "node_type": {
+          "$ref": "#/$defs/NodeType"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "node_id",
+        "node_type",
+        "name",
+        "score",
+        "match_kind"
+      ],
+      "title": "SearchHit",
+      "type": "object"
+    },
+    "SearchResponse": {
+      "additionalProperties": false,
+      "description": "Search hits tied to the immutable release queried.",
+      "properties": {
+        "hits": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SearchHit"
+          },
+          "title": "Hits",
+          "type": "array"
+        },
+        "query": {
+          "minLength": 1,
+          "title": "Query",
+          "type": "string"
+        },
+        "release": {
+          "$ref": "#/$defs/ReleaseInfo"
+        },
+        "total": {
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "query",
+        "total",
+        "release"
+      ],
+      "title": "SearchResponse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "API envelope for search results.",
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/SearchResponse"
+    },
+    "request_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Request Id"
+    }
+  },
+  "required": [
+    "data"
+  ],
+  "title": "SearchApiResponse",
+  "type": "object"
+}

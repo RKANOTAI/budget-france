@@ -1,0 +1,181 @@
+{
+  "$defs": {
+    "BudgetValue": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "properties": {
+            "ae": {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "ae"
+          ]
+        },
+        {
+          "properties": {
+            "cp": {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "cp"
+          ]
+        }
+      ],
+      "description": "Separated authorisations (AE) and payment credits (CP).",
+      "properties": {
+        "ae": {
+          "anyOf": [
+            {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ae"
+        },
+        "cp": {
+          "anyOf": [
+            {
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cp"
+        },
+        "currency": {
+          "const": "EUR",
+          "default": "EUR",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "title": "BudgetValue",
+      "type": "object"
+    },
+    "FiscalYear": {
+      "description": "Fiscal years covered by the MVP contracts.",
+      "enum": [
+        2025,
+        2026
+      ],
+      "title": "FiscalYear",
+      "type": "integer"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "description": "A verifiable reference to a source document fragment.",
+      "properties": {
+        "document_type": {
+          "minLength": 1,
+          "title": "Document Type",
+          "type": "string"
+        },
+        "legal_stage": {
+          "enum": [
+            "PLF",
+            "LFI"
+          ],
+          "title": "Legal Stage",
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "publication_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publication Date"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "pattern": "Z$",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_fragment_id": {
+          "format": "uuid",
+          "title": "Source Fragment Id",
+          "type": "string"
+        },
+        "source_version": {
+          "minLength": 1,
+          "title": "Source Version",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "minLength": 1,
+          "pattern": "^https?://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:[/?#][^\\s]*)?$",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_fragment_id",
+        "url",
+        "sha256",
+        "locator",
+        "legal_stage",
+        "document_type",
+        "retrieved_at",
+        "source_version"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One fiscal-year budget value in a node's history.",
+  "properties": {
+    "budget": {
+      "$ref": "#/$defs/BudgetValue"
+    },
+    "provenance": {
+      "items": {
+        "$ref": "#/$defs/SourceRef"
+      },
+      "minItems": 1,
+      "title": "Provenance",
+      "type": "array"
+    },
+    "year": {
+      "$ref": "#/$defs/FiscalYear"
+    }
+  },
+  "required": [
+    "year",
+    "budget",
+    "provenance"
+  ],
+  "title": "HistoryPoint",
+  "type": "object"
+}
