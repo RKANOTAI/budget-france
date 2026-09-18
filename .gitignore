@@ -1,0 +1,34 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+coverage.xml
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Local data and generated artifacts
+storage/raw/*
+!storage/raw/.gitkeep
+storage/processed/*
+!storage/processed/.gitkeep
+*.duckdb
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
