@@ -326,6 +326,9 @@ function renderApp(data, state) {
   const selected = getNode(nodes, state.selectedId) ?? nodes[0];
   const selectedId = selected?.id ?? "";
   const sourceLabel = data.mode === "api" ? "API connectée" : "Démonstration locale";
+  const footerLabel = data.mode === "api"
+    ? "Données servies par l'API publique"
+    : "Mode démo — API publique à configurer";
 
   return `
     <div class="site-shell">
@@ -364,7 +367,7 @@ function renderApp(data, state) {
           </div>
           <div class="explorer-grid">
             <aside class="tree-panel">
-              <div class="tree-panel__header"><span>Arbre budgétaire</span><span>2026</span></div>
+              <div class="tree-panel__header"><span>Arbre budgétaire</span><span>${escapeHtml(release.fiscal_year ?? "—")}</span></div>
               <ol class="tree-list">${renderTree(nodes, selectedId)}</ol>
               <div class="tree-panel__footer"><span class="legend-line"></span><span>Cliquez pour inspecter un niveau</span></div>
             </aside>
@@ -377,7 +380,7 @@ function renderApp(data, state) {
           <div><span class="trust-strip__number">03</span><strong>La source reste accessible</strong><p>Chaque fact consultable renvoie à son document et à son fragment d'origine.</p></div>
         </section>
       </main>
-      <footer class="site-footer"><span>Où va l'argent ?</span><span>Interface de démonstration · données à connecter à l'API de production</span></footer>
+      <footer class="site-footer"><span>Où va l'argent ?</span><span>${escapeHtml(footerLabel)}</span></footer>
     </div>`;
 }
 

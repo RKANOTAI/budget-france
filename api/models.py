@@ -21,6 +21,8 @@ from .contracts import (
     SearchResponse,
     SourceRef,
     TreeApiResponse,
+    TreeCollection,
+    TreeCollectionApiResponse,
     TreeNode,
     TreeResponse,
 )
@@ -47,5 +49,7 @@ __all__ = [
     "SourceRef",
     "TreeNode",
     "TreeApiResponse",
+    "TreeCollection",
+    "TreeCollectionApiResponse",
     "TreeResponse",
 ]

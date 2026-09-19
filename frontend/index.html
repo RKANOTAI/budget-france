@@ -16,11 +16,32 @@
         <p>Cette interface nécessite JavaScript pour explorer la nomenclature budgétaire.</p>
       </main>
     </noscript>
+    <script src="./config.js"></script>
     <script type="module">
       import { mountApp } from "./app.mjs";
+      import { fetchBudgetData } from "./api.mjs";
       import { demoData } from "./demo-data.mjs";
 
-      mountApp(document.querySelector("#app"), demoData);
+      const root = document.querySelector("#app");
+      const apiBaseUrl = globalThis.__BUDGET_API_BASE_URL__ ?? "";
+      let data = demoData;
+      if (apiBaseUrl) {
+        try {
+          data = await fetchBudgetData({ apiBaseUrl });
+        } catch (error) {
+          console.error(error);
+          root.innerHTML = `
+            <main class="noscript-message">
+              <h1>API budgétaire indisponible</h1>
+              <p>Les données live ne sont pas accessibles. Réessayez plus tard.</p>
+            </main>`;
+        }
+      }
+      if (root.innerHTML) {
+        // The error state above is already rendered.
+      } else {
+        mountApp(root, data);
+      }
     </script>
   </body>
 </html>

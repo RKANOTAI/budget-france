@@ -21,6 +21,8 @@ from .models import (
     SearchResponse,
     SourceRef,
     TreeApiResponse,
+    TreeCollection,
+    TreeCollectionApiResponse,
     TreeNode,
     TreeResponse,
 )
@@ -47,5 +49,7 @@ __all__ = [
     "SearchApiResponse",
     "TreeNode",
     "TreeApiResponse",
+    "TreeCollection",
+    "TreeCollectionApiResponse",
     "TreeResponse",
 ]

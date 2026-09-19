@@ -363,6 +363,27 @@ class TreeResponse(ContractModel):
         return self
 
 
+class TreeCollection(ContractModel):
+    """All published Mission roots for one release."""
+
+    release: ReleaseInfo
+    roots: Annotated[tuple[TreeNode, ...], BeforeValidator(_as_immutable_tuple)] = Field(
+        min_length=1,
+    )
+
+    @model_validator(mode="after")
+    def _validate_unique_node_ids(self) -> "TreeCollection":
+        seen_ids: set[UUID] = set()
+        pending = list(self.roots)
+        while pending:
+            node = pending.pop()
+            if node.id in seen_ids:
+                raise ValueError("tree response node UUIDs must be unique")
+            seen_ids.add(node.id)
+            pending.extend(node.children)
+        return self
+
+
 class HistoryPoint(ContractModel):
     """One fiscal-year budget value in a node's history."""
 
@@ -533,6 +554,10 @@ class ApiResponse[T](ContractModel):
 
 class TreeApiResponse(ApiResponse[TreeResponse]):
     """API envelope for a published budget tree."""
+
+
+class TreeCollectionApiResponse(ApiResponse[TreeCollection]):
+    """API envelope for all published budget tree roots."""
 
 
 class NodeApiResponse(ApiResponse[NodeDetail]):

@@ -16,6 +16,8 @@ from packages.contracts.models import (
     SearchResponse,
     SourceRef,
     TreeApiResponse,
+    TreeCollection,
+    TreeCollectionApiResponse,
     TreeNode,
     TreeResponse,
 )
@@ -86,6 +88,7 @@ def test_concrete_api_responses_have_concrete_typed_data() -> None:
     assert isinstance(response.data, SearchResponse)
     assert SearchApiResponse.model_fields["data"].annotation is SearchResponse
     assert TreeApiResponse.model_fields["data"].annotation is TreeResponse
+    assert TreeCollectionApiResponse.model_fields["data"].annotation is TreeCollection
     assert NodeApiResponse.model_fields["data"].annotation is NodeDetail
 
 
