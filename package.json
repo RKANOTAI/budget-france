@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npm run test:contracts",
     "test:contracts": "uv run pytest tests/contracts -q",
+    "test:frontend": "node --test frontend/app.test.mjs",
     "contracts:check": "uv run python scripts/export_contracts.py --check"
   }
 }

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102a31" />
+    <meta name="description" content="Explorer le budget général de l'État français, de la mission à la source." />
+    <title>Où va l'argent ? — Explorateur budgétaire</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <main class="noscript-message">
+        <h1>Où va l'argent ?</h1>
+        <p>Cette interface nécessite JavaScript pour explorer la nomenclature budgétaire.</p>
+      </main>
+    </noscript>
+    <script type="module">
+      import { mountApp } from "./app.mjs";
+      import { demoData } from "./demo-data.mjs";
+
+      mountApp(document.querySelector("#app"), demoData);
+    </script>
+  </body>
+</html>

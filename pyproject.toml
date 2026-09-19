@@ -4,7 +4,16 @@ version = "0.1.0"
 description = "Contrats et API du budget général de l'État français"
 requires-python = ">=3.13,<3.14"
 dependencies = [
+  "alembic>=1.15,<2",
+  "duckdb>=1.1,<2",
+  "fastexcel>=0.13,<1",
+  "httpx>=0.28,<1",
+  "pgvector>=0.3,<1",
+  "polars>=1.20,<2",
+  "psycopg[binary]>=3.2,<4",
   "pydantic>=2.10,<3",
+  "pydantic-settings>=2.7,<3",
+  "sqlalchemy>=2.0,<3",
 ]
 
 [dependency-groups]
@@ -12,6 +21,7 @@ dev = [
   "jsonschema>=4.23,<5",
   "mypy>=1.15,<2",
   "pytest>=8.3,<9",
+  "pytest-postgresql>=7,<8",
   "rfc3339-validator>=0.1.4",
   "ruff>=0.11,<1",
 ]
@@ -40,7 +50,7 @@ line-ending = "lf"
 
 [tool.mypy]
 python_version = "3.13"
-files = ["api", "scripts", "tests/contracts"]
+files = ["api", "database", "scripts", "tests/contracts", "tests/database"]
 strict = true
 ignore_missing_imports = true
 explicit_package_bases = true
